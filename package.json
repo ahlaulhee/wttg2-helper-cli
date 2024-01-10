@@ -1,0 +1,27 @@
+{
+  "name": "clipboardlistener",
+  "type": "module",
+  "bin": {
+    "clipboardlistener": "./index.js"
+  },
+  "version": "1.0.0",
+  "description": "Simple clipboard listener",
+  "main": "index.js",
+  "scripts": {
+    "link-cli": "(pnpm unlink --global clipboardlistener-cli || true) && pnpm link --global"
+  },
+  "keywords": [],
+  "author": "ahlaulhe",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "clipboardy": "^4.0.0",
+    "commander": "^11.1.0",
+    "console-clear": "^1.1.1",
+    "keypress": "^0.2.1"
+  },
+  "devDependencies": {
+    "@types/keypress": "^2.0.30",
+    "@types/node": "^20.10.8"
+  }
+}
