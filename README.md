@@ -19,8 +19,8 @@ This tool listens to your clipboard, detects and stores the keys and saves the c
 Inside a terminal type:
 
 ```bash
-    clipboardlistener listen
+    wttg2-helper
 ```
 
-The only flag currently is -c or --condition, allowing you to switch between WTTG1 and WTTG2 key patterns.
-While the CLI is running, press 'R' to reset all keys and Ctrl + 'C' to exit the program.
+The only flag currently is -w1 or --wttg1, allowing you to switch to the key pattern used in Welcome to the Game 1.
+While the CLI is running, press 'R' to reset all keys (beware: this will delete what you currently have in your clipboard) and Ctrl + 'C' to exit the program.

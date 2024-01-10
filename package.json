@@ -1,14 +1,14 @@
 {
-  "name": "clipboardlistener",
+  "name": "wttg2-helper",
   "type": "module",
   "bin": {
-    "clipboardlistener": "./index.js"
+    "wttg2-helper": "./index.js"
   },
   "version": "1.0.0",
   "description": "Simple clipboard listener",
   "main": "index.js",
   "scripts": {
-    "link-cli": "(pnpm unlink --global clipboardlistener-cli || true) && pnpm link --global"
+    "link-cli": "(pnpm unlink --global wttg2-helper-cli || true) && pnpm link --global"
   },
   "keywords": [],
   "author": "ahlaulhe",
