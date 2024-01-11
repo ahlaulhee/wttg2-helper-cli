@@ -20,6 +20,12 @@ dependencies:
   keypress:
     specifier: ^0.2.1
     version: 0.2.1
+  node-global-key-listener:
+    specifier: ^0.1.1
+    version: 0.1.1
+  sound-play:
+    specifier: ^1.1.0
+    version: 1.1.0
 
 devDependencies:
   '@types/keypress':
@@ -150,6 +156,12 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
+  /node-global-key-listener@0.1.1:
+    resolution: {integrity: sha512-xPuMrjVDJSMWg1VchV4ynrE3I1nCtk84NRZWRr4WiPBAeauBEvmE7bMMmvLZbS7F5Z+xdK6YIhazhervyBINLw==}
+    dependencies:
+      sudo-prompt: 9.2.1
+    dev: false
+
   /npm-run-path@5.2.0:
     resolution: {integrity: sha512-W4/tgAXFqFA0iL7fk0+uQ3g7wkL8xJmx3XdK0VGb4cHW//eZTtKGvFBBoRKVTpY7n6ze4NL9ly7rgXcHufqXKg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -191,9 +203,17 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
+  /sound-play@1.1.0:
+    resolution: {integrity: sha512-Bd/L0AoCwITFeOnpNLMsfPXrV5GG5NhrC/T6odveahYbhPZkdTnrFXRia9FCC5WBWdUTw1d+yvLBvi4wnD1xOA==}
+    dev: false
+
   /strip-final-newline@3.0.0:
     resolution: {integrity: sha512-dOESqjYr96iWYylGObzd39EuNTa5VJxyvVAEm5Jnh7KGo75V43Hk1odPQkNDyXNmUR6k+gEiDVXnjB8HJ3crXw==}
     engines: {node: '>=12'}
+    dev: false
+
+  /sudo-prompt@9.2.1:
+    resolution: {integrity: sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw==}
     dev: false
 
   /system-architecture@0.1.0:

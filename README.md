@@ -23,4 +23,5 @@ Inside a terminal type:
 ```
 
 The only flag currently is -w1 or --wttg1, allowing you to switch to the key pattern used in Welcome to the Game 1.
-While the CLI is running, press 'R' to reset all keys (beware: this will delete what you currently have in your clipboard) and Ctrl + 'C' to exit the program.
+While the CLI is running, press CTRL + R to reset all keys (beware: this will delete what you currently have in your clipboard) and Ctrl + 'C' to exit the program.
+Also, pressing CTRL + 1 | 2 | 3 changes the wiki in which you are right now. You can omit this feature if you don't care.

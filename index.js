@@ -4,16 +4,42 @@ import clipboardy from "clipboardy";
 import keypress from "keypress";
 import chalk from "chalk";
 import clear from "console-clear";
+import sound from "sound-play";
+import path from "path";
+
+import { GlobalKeyboardListener } from "node-global-key-listener";
+const v = new GlobalKeyboardListener();
 
 const codeMatches = [];
 const modes = {
   wttg1: /[1-8] - [a-z0-9]{4}/gi,
   wttg2: /[1-8] - [a-z0-9]{12}/gi,
 };
+const currentWiki = 1;
+
+v.addListener(function (e, down) {
+  if (
+    e.state == "DOWN" &&
+    e.name == "R" &&
+    (down["LEFT CTRL"] || down["RIGHT CTRL"])
+  ) {
+    console.log(chalk.bgRedBright.whiteBright("Reseting keys..."));
+    codeMatches.splice(0, codeMatches.length);
+    clipboardy.writeSync("");
+  }
+
+  if (
+    e.state == "DOWN" &&
+    (e.name == "1" || e.name == "2" || e.name == "3") &&
+    (down["LEFT CTRL"] || down["RIGHT CTRL"])
+  ) {
+    currentWiki = parseInt(e.name);
+  }
+});
 
 const program = new Command();
 
-program.version("1.1.0");
+program.version("1.1.1");
 
 program
   .description("Listen to clipboard and perform action on certain condition")
@@ -44,20 +70,24 @@ program
         // matches.length > 0 ? console.log("Found a match!") : null;
         // TODO: Refactorizar el codigo, principalmente mover el intervalo a un nuevo archivo
         // TODO: Agregar a los patrones espacios antes y despues de la key?
-        // TODO: CTRL + num cambia el valor de wiki a ese numero. Probablemente useless ya que los keybinds no son globales
+        // TODO: CTRL + num cambia el valor de wiki a ese numero.
         // TODO: Migrar a TypeScript
         matches.forEach((element) => {
+          const scriptDir = path.dirname(new URL(import.meta.url).pathname);
+          sound.play(path.join(scriptDir, "/CatMeow2.mp3").substring(1));
           if (!codeMatches.includes(element[0])) {
             codeMatches.forEach((e, index) => {
               if (e[0] == element[0][0]) {
                 codeMatches.splice(index, 1);
               }
             });
+            clipboardy.writeSync(element[0].substring(4));
             codeMatches.push(element[0]);
           }
         });
         console.log(
-          chalk.redBright.bold("----------------------\n") +
+          chalk.redBright.bold("CURRENT WIKI: " + currentWiki + "\n") +
+            chalk.redBright.bold("----------------------\n") +
             chalk.green.bold(" These are your keys:\n") +
             chalk.redBright.bold("----------------------")
         );
@@ -74,8 +104,8 @@ program
 
       if (codeMatches.length === 8) {
         const compiledKey = codeMatches
-          .map((e) => e.substring(4))
           .sort()
+          .map((e) => e.substring(4))
           .join("");
         await clipboardy.write(compiledKey);
         console.log(
@@ -92,6 +122,7 @@ program
     process.stdin.on("keypress", (ch, key) => {
       if (key && key.name === "r" && codeMatches.length > 0) {
         console.log(chalk.whiteBright.bold("Clearing keys..."));
+        currentWiki = 1;
         codeMatches.splice(0, codeMatches.length);
         clipboardy.writeSync("");
       }
@@ -103,8 +134,8 @@ program
       }
     });
 
-    process.stdin.setRawMode(true);
-    process.stdin.resume();
+    // process.stdin.setRawMode(true);
+    // process.stdin.resume();
   });
 
 program.parse(process.argv);
