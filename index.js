@@ -15,6 +15,8 @@ const v = new GlobalKeyboardListener();
 // TODO: Agregar a los patrones espacios antes y despues de la key para mas certeza?
 // TODO: Migrar a TypeScript
 
+// http://47e3ca7af4507b0388effe60c38a452a.ann
+
 // 8 - c417B177a356
 // 1 - prjejgrtlof4 , 2 - max3h2l023wr , 3 - xhayow1o1zys , 4 - zdi3ej8b7ui9 , 5 - 4qq2jew46ju6 , 6 - 51inim4copdv , 7 - 13pg86pgwmto , 8 - 2m1m3fyjr2ud
 // 13pg86pgwmto2m1m3fyjr2ud4qq2jew46ju651inim4copdvmax3h2l023wrprjejgrtlof4xhayow1o1zyszdi3ej8b7ui9
@@ -35,6 +37,7 @@ const modes = {
   wttg2: /[1-8] - [a-z0-9]{12}/gi,
 };
 let currentWiki = 1;
+const wikiPattern = /http:\/\/[a-z0-9]{32}\.ann/gi;
 
 v.addListener(function (e, down) {
   if (
@@ -47,6 +50,7 @@ v.addListener(function (e, down) {
         "Reseting keys..."
       )
     );
+    currentWiki = 1;
     codeMatches.splice(0, codeMatches.length);
     clipboardy.writeSync("");
   }
@@ -62,7 +66,7 @@ v.addListener(function (e, down) {
 
 const program = new Command();
 
-program.version("1.2.1");
+program.version("1.2.2");
 
 program
   .description("WTTG2 Helper CLI")
@@ -87,10 +91,19 @@ program
       const clipboardContent = await clipboardy.read();
       if (clipboardContent != oldClipboardContent) {
         clear();
-        const matches = [...clipboardContent.matchAll(condition)];
-        matches.forEach((element) => {
+        const keyMatches = [...clipboardContent.matchAll(condition)];
+        const wikiMatches = [...clipboardContent.matchAll(wikiPattern)];
+        const scriptDir = path.dirname(new URL(import.meta.url).pathname);
+
+        if (wikiMatches[0] != clipboardContent) {
+          wikiMatches.forEach((element) => {
+            sound.play(path.join(scriptDir, "/duck.mp3").substring(1));
+            clipboardy.writeSync(element[0]);
+          });
+        }
+
+        keyMatches.forEach((element) => {
           codeMatches.map((e) => (e.newKey = false));
-          const scriptDir = path.dirname(new URL(import.meta.url).pathname);
           sound.play(path.join(scriptDir, "/CatMeow2.mp3").substring(1));
           if (
             codeMatches.find((c) => (c.key == element[0]) === undefined)
