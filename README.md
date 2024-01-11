@@ -4,7 +4,7 @@ This tool listens to your clipboard, detects and stores the keys and saves the c
 
 ## Screenshots
 
-![App Screenshot](https://i.imgur.com/JPJJ1Vt.png)
+![App Screenshot](https://i.imgur.com/6eRkZWi.png)
 
 ## Installation
 
