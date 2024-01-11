@@ -12,6 +12,7 @@ This tool listens to your clipboard, detects and stores the keys and saves the c
     cd wttg2-helper-cli
     pnpm i
     pnpm link-cli
+    pnpm dev
 ```
 
 ## Usage
