@@ -3,3 +3,8 @@ export interface Key {
   wiki: number;
   isNew: boolean;
 }
+
+export interface Wiki {
+  wiki: string;
+  isNew: boolean;
+}

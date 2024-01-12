@@ -19,14 +19,15 @@ import {
   wttg2KeyPattern,
   wikiPattern,
 } from "./config.js";
-import { Key } from "./type.js";
+import { Key, Wiki } from "./type.js";
 import { compileKeys, log } from "./helpers.js";
 
 let currentWiki: number = 1;
 let keysFound: Key[] = [];
+let wikisFound: Wiki[] = [];
 
 const program = new Command();
-program.version("2.0.0");
+program.version("2.1.0");
 program
   .description(
     "WTTG2 Helper CLI allows to keep track of your keys and 2nd wiki, it also helps you find these with ease."
@@ -53,6 +54,7 @@ function handleKeyPress(e: any, down: any): void {
     log("Reseting keys...", hexColorTable[7].hex, hexColorTable[0].hex);
     currentWiki = 1;
     keysFound = [];
+    wikisFound = [];
     clipboardy.writeSync("");
   }
 
@@ -82,12 +84,18 @@ function startInterval(condition: RegExp): void {
         .join(path.dirname(new URL(import.meta.url).pathname), "..", "/sounds")
         .substring(1);
 
-      if (wikiMatches.length > 0 && wikiMatches[0][0] != currentClipboardText) {
+      if (
+        wikiMatches.length > 0 &&
+        wikiMatches[0][0] != currentClipboardText &&
+        wikisFound.findIndex((w) => w.wiki === wikiMatches[0][0]) === -1
+      ) {
+        wikisFound.map((w) => (w.isNew = false));
         sound.play(path.join(soundsDir, "/duck.mp3"));
         clipboardy.write(wikiMatches[0][0]);
+        wikisFound.push({ wiki: wikiMatches[0][0], isNew: true });
       }
       if (keyMatches.length > 0) {
-        keysFound.map((e) => (e.isNew = false));
+        keysFound.map((k) => (k.isNew = false));
         sound.play(path.join(soundsDir, "/cat.mp3"));
       }
 
@@ -104,12 +112,12 @@ function startInterval(condition: RegExp): void {
         });
       });
 
-      log("-".repeat(30), hexColorTable[0].hex);
+      log("-".repeat(47), hexColorTable[0].hex);
       log(
-        `${" ".repeat(5)}These are your keys:${" ".repeat(5)}`,
+        `${" ".repeat(13)}These are your keys:${" ".repeat(13)}`,
         hexColorTable[5].hex
       );
-      log("-".repeat(30), hexColorTable[0].hex);
+      log("-".repeat(47), hexColorTable[0].hex);
 
       keysFound.length > 0
         ? keysFound
@@ -123,13 +131,26 @@ function startInterval(condition: RegExp): void {
               )
             )
         : log("No Keys", hexColorTable[0].hex);
+
+      log("-".repeat(47), hexColorTable[0].hex);
+
+      wikisFound.length > 0
+        ? wikisFound.forEach((w) =>
+            log(
+              `${w.isNew ? ">" : ""} ${w.wiki} ${w.isNew ? "<" : ""}`,
+              hexColorTable[6].hex
+            )
+          )
+        : log("No Wikis", hexColorTable[0].hex);
+
+      log("-".repeat(47), hexColorTable[0].hex);
     }
 
     if (keysFound.length === 8) {
       const compiledKey = compileKeys(keysFound);
       await clipboardy.write(compiledKey);
       log(
-        `You've collected all your keys. Here is your compiled key: ${compiledKey}`,
+        `You've collected all your keys. Here is your compiled key: \n${compiledKey}`,
         hexColorTable[0].hex,
         hexColorTable[5].hex
       );
@@ -154,5 +175,4 @@ process.stdin.on("keypress", (_str, key) => {
 // 1 - prjejgrtlof4 , 2 - max3h2l023wr , 3 - xhayow1o1zys , 4 - zdi3ej8b7ui9 , 5 - 4qq2jew46ju6 , 6 - 51inim4copdv , 7 - 13pg86pgwmto , 8 - 2m1m3fyjr2ud
 // prjejgrtlof4max3h2l023wrxhayow1o1zyszdi3ej8b7ui94qq2jew46ju651inim4copdv13pg86pgwmto2m1m3fyjr2ud
 
-// TODO: Add wikis to the list?
 // TODO: Add keybinds to copy keys and wikis?
